@@ -23,42 +23,55 @@ body{
       );
       background-size: 4px 20px;
 }
-.title{
+/* .title{
      background-image: url(https://3.bp.blogspot.com/-M9zIW_NwjcQ/U5l5kG5JkDI/AAAAAAAAhRA/C15-d5-SLIg/s400/makimono_yoko.png);
-     
      background-repeat: no-repeat;
      background-position: center;
-     background-size: 500px;
+     background-size:  100%;
      
      
-     /* height: 150px;
-     width: 400px; */
+     height: 150px;
+     width: 400px; 
      
-}
+} */
 .sinobi{
     width: 200px;
     height: 200px;
     margin: 40px;
 }
+.sinobiAfter{
+    width: 200px;
+    height: 200px;
+    margin: 40px;
+    filter: hue-rotate(225deg);
+}
 .shouninn{
     width: 200px;
     height: 200px;
     margin: 40px;
+    position: relative;
 }
+
+
 .shouninnAfter{
+    background: url(https://illustimage.com/photo/5747.png?20180626);
+    background-size: 20px 20px;
     width: 200px;
     height: 200px;
     margin: 40px;
     filter: hue-rotate(225deg);
+    display: inline-block;
+    animation: hurueru.1s ;
+    position: relative;
 }
-.shouninnAfter2{
-    filter: hue-rotate(225deg);
+@keyframes hurueru{
+    0% {transform: translate(0px, 0px) rotateZ(0deg)}
+    25% {transform: translate(2px, 2px) rotateZ(1deg)}
+    50% {transform: translate(0px, 2px) rotateZ(0deg)}
+    75% {transform: translate(2px, 0px) rotateZ(-1deg)}
+    100% {transform: translate(0px, 0px) rotateZ(0deg)}
 }
 
-.toge{
-    width: 200px;
-    height: 200px;
-}
 #main{
     font-size: 36px;
     letter-spacing: .1em;
@@ -70,7 +83,66 @@ body{
     height: 100vh;
     color: #fff; */
 }
-
-#result{
-    font-size: 36px;
+.screen{
+    display: none;
 }
+body.appear .screen{
+    display: block;
+    content: "";
+    position:fixed;
+	z-index: 999;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+	left: 0;
+    transform: scaleY(0);
+    background-color: #333;/*伸びる背景色の設定*/
+    animation-name:PageAnime;
+	animation-duration:1.2s;
+	animation-timing-function:ease-in-out;
+	animation-fill-mode:forwards;
+}
+@keyframes PageAnime{
+	0% {
+		transform-origin:bottom;
+		transform:scaleY(0);
+	}
+	50% {
+		transform-origin:bottom;
+		transform:scaleY(1);
+	}
+	50.001% {
+		transform-origin:top;
+	}
+	100% {
+		transform-origin:top;
+		transform:scaleY(0);
+	}
+}
+#contents{
+    opacity: 0;
+}
+body.appear #contents{
+	animation-name:PageAnimeAppear;
+	animation-duration:1s;
+	animation-delay: 0.8s;
+	animation-fill-mode:forwards;
+	opacity: 0;
+}
+
+@keyframes PageAnimeAppear{
+	0% {
+	opacity: 0;
+	}
+	100% {
+        opacity: 1;
+}
+}
+#result{
+    font-size: 36px;  
+}
+/* .kekka{
+    background-image: url(https://3.bp.blogspot.com/-M9zIW_NwjcQ/U5l5kG5JkDI/AAAAAAAAhRA/C15-d5-SLIg/s400/makimono_yoko.png);
+    background-size: 500px;
+    background-repeat: no-repeat;
+} */

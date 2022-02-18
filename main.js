@@ -1,29 +1,28 @@
 let game={
     words:[
-        'aiueokakikukeko',
-        // 'blue',
+        //'aiueokakikukeko',
+        'dainijisekaitaisen',
+        //'a',
         // 'yellow',
         // 'green',
     ],
-    run:false,
     cuntbox:0,
+    run:false,
+    misscunt:0,
+    henka:false,
     myPoint:100,
     currentWord:'',
     matchedIndex:0,
     startTime: null,
     isPlaying: false,
+    bgmSound:document.getElementById('dance'),
     punchSound:document.getElementById('punch'),
     mainArea: document.getElementById('main'),
     resultArea: document.getElementById('result'),
     ninjaAred:document.getElementById('ninja'),
     enemyArea:document.getElementById('enemy'),
-    //  titleArea:document.getElementById('title'),
-    // questionArea:document.getElementById('question'),
-    //  buttonArea:document.getElementById('button'),
+    buttonArea:document.getElementById('button'),
     start:function(){
-        // game.questionArea.remove();
-        // game.buttonArea.hidden();
-        // game.titleArea.remove();
         game.isPlaying=true;
         game.startTime=Date.now();
         game.setWord();
@@ -56,7 +55,8 @@ let game={
         //prise ここで使えない
 
         game.resultArea.innerText=`${elapsedTime}秒かかりました。${prise} \n${this.myPoint}点です。\n もう一度プレイする場合にはブラウザをリロードしてください。`;
-        
+        // game.resultArea.innerText=<p>`${elapsedTime}秒かかりました。${prise}`</p> \n`<p>${this.myPoint}点です。</p> \n <p>もう一度プレイする場合にはブラウザをリロードしてください。</p>`;
+
         game.isPlaying=false;
     
     },
@@ -66,15 +66,20 @@ let game={
 function formattedSeconds(ms){
     return (ms/1000).toFixed(2);
 }
-document.onclick=()=>{
+
+game.buttonArea.onclick=()=>{
     if(game.isPlaying===false){
+        document.getElementById('screen').style.display="none";
+        game.bgmSound.play();
         game.start();
+
     }
 }
 
 // let button=document.getElementById('button');
 document.onkeydown = (e) => {
     if (e.key !== game.currentWord[game.matchedIndex]) {
+        game.misscunt++;
         game.myPoint--;
         return;
     } else if (game.myPoint < 100) {
@@ -87,6 +92,10 @@ document.onkeydown = (e) => {
     game.displayWord();
     if (game.matchedIndex === game.currentWord.length) {
         if (game.isFinished()) {
+            // function gamenidou(){
+            //     $("#splash").delay(1200).fadeOut('slow');
+            //     $
+            // }
             game.displayResult();
         }
         game.setWord();
@@ -98,19 +107,35 @@ const activate = () => {
         return;
     }
     if (game.cuntbox > 0) {
+         game.punchSound.play();
         game.enemyArea.className = "shouninnAfter";
         game.run = true;
         game.cuntbox--;
         const operation = () => {
             game.enemyArea.className = "shouninn";
-            game.punchSound.play();
+            game.punchSound.pause();
             game.run = false;
         };
         setTimeout(operation, 100);
     }
 };
 setInterval(activate, 10);
-    
 
+const shinobi=()=>{
+    if(game.henka===true){
+        return;
+    }
+    if(game.misscunt>0){
+        game.ninjaAred.className="sinobiAfter";
+        game.henka=true;
+        game.misscunt--;
+        const shuriken=()=>{
+            game.ninjaAred.className="sinobi";
+            game.henka=false;
+        };
+        setTimeout(shuriken,2000);
+    }
+};
+setInterval(shinobi,10);
              
 
